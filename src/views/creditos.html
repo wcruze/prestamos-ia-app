@@ -13,267 +13,281 @@
     <link rel="stylesheet" href="./style//bootstrap.min.css" />
   </head>
   <body style="background-color:#323541;" id="bodyy">
-    <main class="container-fluid" style="display: inline;" id="main-credito">
-      <div class="row">
-        <div class="col-xl-4 col-md-6 col-sm-9 p-4 my-auto">
-          <form class="card card-body" id="formCreditos">
-            <div class="form-group">
-              <input
-                class="form-control"
-                type="number"
-                id="dpi"
-                name="dpi"
-                placeholder="DPI/Cui Personas"
-                pattern="[0-9]*"
-                minlength="13"
-                maxlength="13"
-                autofocus
-              />
-            </div>
-            <div class="form-group">
-              <button
-                type="button"
-                class="btn btn-outline-danger"
-                onclick="agregarPersona()"
-              >
-                Agregar
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-primary"
-                onclick="buscarPersona()"
-              >
-                Buscar
-              </button>
-            </div>
-            <div class="form-group">
-              <label id="infoPersona" name="infoPersona"></label>
-            </div>
-            <div class="form-group">
-              <input
-                class="form-control"
-                type="number"
-                id="monto"
-                name="monto"
-                placeholder="Monto de credito Q.°°"
-                pattern="[0-9]*"
-                minlength="0"
-                maxlength="5"
-                autofocus
-              />
-            </div>
-            <div class="form-group">
-              <input
-                class="form-control"
-                type="number"
-                id="cuotas"
-                name="cuotas"
-                placeholder="Numero de cuotas: 12"
-                pattern="[0-9]*"
-                minlength="1"
-                maxlength="2"
-              />
-            </div>
-            <div class="form-group">
-              <textarea
-                class="form-control"
-                id="observaciones"
-                name="observaciones"
-                rows="5"
-                placeholder="Observaciones"
-                pattern="[A-Za-z0-9]{0,254}"
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-outline-info">
-              Solicitar
-            </button>
-          </form>
-        </div>
-      </div>
-    </main>
-    <!-- AQUI COMINEZA EL FORM PARA AGREGAR PERSONAS -->
-    <main class="container-fluid" style="display: none;" id="main-persona">
-      <div class="row" display="none">
-        <div class="col-12  p-4 my-auto">
-          <form class="card card-body" id="formPersonas">
-            <div class="form-group">
-              <h5>NUEVA PERSONA</h5>
-            </div>
-            <div class="row">
-              <div class="col-xl-4  col-md-6 col-sm-12 p-4 my-auto">
-                <label for="">Documento unico de Identificacion</label>
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="dpi_np"
-                    name="dpi_np"
-                    placeholder="DPI/Cui Personas"
-                    pattern="[0-9]*"
-                    minlength="13"
-                    maxlength="13"
-                    autofocus
-                  />
-                </div>
-                
-                <label for="">Nombres y Apellidos</label>
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="nombre1_np"
-                    name="nombre1_np"
-                    placeholder="Primer Nombre"
-                    pattern="[a-zA-Z]*"
-                    minlength="3"
-                    maxlength="29"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="nombre2_np"
-                    name="nombre2_np"
-                    placeholder="Segundo Nombre"
-                    pattern="[a-zA-Z]*"
-                    minlength="3"
-                    maxlength="29"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="apellido1_np"
-                    name="apellido2_np"
-                    placeholder="Primer Apellido"
-                    pattern="[a-zA-Z]*"
-                    minlength="3"
-                    maxlength="29"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="apellido2_np"
-                    name="apellido2_np"
-                    placeholder="Segundo Apellido"
-                    pattern="[a-zA-Z]*"
-                    minlength="3"
-                    maxlength="29"
-                  />
-                </div>
+    <div class="col-xl-4 p-4 my-auto"></div>
+      <main class="container-fluid" style="display: inline;" id="main-credito">
+        <div class="row">
+          <div class="col-xl-3 col-xs-4 col-md-6 col-sm-9 p-4 my-auto">
+            <form class="card card-body" id="formCreditos">
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="dpi"
+                  name="dpi"
+                  placeholder="DPI/Cui Personas"
+                  pattern="[0-9]*"
+                  minlength="13"
+                  maxlength="13"
+                  autofocus
+                  required
+                />
               </div>
-              <div class="col-xl-4  col-md-6 col-sm-12 p-4 my-auto">
-                <div class="form-group">
-                  <label for="">Fecha Nacimiento</label>
-                  <input
-                    class="form-control"
-                    type="date"
-                    id="fnacimiento_np"
-                    name="fnacimiento_np"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="">Trabaja?</label>
-                  <select class="custom-select" id="trabaja_np">
-                    <option value="S">Si</option>
-                    <option selected value="N">No</option>
-                  </select>
-                </div>
-                
-                <label for="">Nombre de la Empresa</label>
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="nombreep_np"
-                    name="nombreep_np"
-                    placeholder="KFW S.A"
-                    pattern="[a-zA-Z]*"
-                    minlength="2"
-                    maxlength="49"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="">Es Casado/a?</label>
-                  <select class="custom-select" id="casado_np">
-                    <option value="S">Si</option>
-                    <option selected value="N">No</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-xl-4  col-md-6 col-sm-12 p-4 my-auto">
-                  <label for="">Salario</label>
-                  <div class="form-group">
-                    <input
-                      class="form-control"
-                      type="text"
-                      id="salario_np"
-                      name="salario_np"
-                      placeholder="Ingresos"
-                      pattern="[0-9]*"
-                      minlength="0"
-                      maxlength="9"
-                    />
-                  </div>
-                  <label for="">Correo electronico</label>
-                  <div class="form-group">
-                    <input
-                      class="form-control"
-                      type="email"
-                      id="correoe_np"
-                      name="correoe_np"
-                      placeholder="juan@coorr.com"
-                    />
-                  </div>
-                  <label for="">Direccion de Residencia</label>
-                  <div class="form-group">
-                    <input
-                      class="form-control"
-                      type="text"
-                      id="dir_np"
-                      name="dir_np"
-                      placeholder="Direccion"
-                      minlength="3"
-                      maxlength="49"
-                    />
-                  </div>
-                  <label for="">Telefono Personal</label>
-                  <div class="form-group">
-                    <input
-                      class="form-control"
-                      type="tel"
-                      id="tel_np"
-                      name="tel_np"
-                      placeholder="No. Telefono"
-                      pattern="[0-9]*"
-                      minlength="8"
-                      maxlength="8"
-                    />
-                  </div>
-              </div>
-              <div class="col-xl-4  col-md-6 col-sm-12 p-4">
+              <div class="form-group">
                 <button
                   type="button"
                   class="btn btn-outline-danger"
-                  onclick="cancelarPersona()"
+                  onclick="agregarPersona()"
                 >
-                  Cancelar
+                  Agregar
                 </button>
-                <button 
-                type="submit" 
-                class="btn btn-outline-primary">
-                  Registrar
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  onclick="buscarPersona()"
+                >
+                  Buscar
                 </button>
               </div>
-            </div>
-          </form>
+              <div class="form-group">
+                <label id="infoPersona" name="infoPersona"></label>
+              </div>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  type="number"
+                  id="monto"
+                  name="monto"
+                  placeholder="Monto de credito Q.°°"
+                  pattern="[0-9]*"
+                  minlength="0"
+                  maxlength="5"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  type="number"
+                  id="cuotas"
+                  name="cuotas"
+                  placeholder="Numero de cuotas: 12"
+                  pattern="[0-9]*"
+                  minlength="1"
+                  maxlength="2"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <textarea
+                  class="form-control"
+                  id="observaciones"
+                  name="observaciones"
+                  rows="5"
+                  placeholder="Observaciones"
+                  pattern="[A-Za-z0-9]{0,254}"
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-outline-info">
+                Solicitar
+              </button>
+            </form>
+          </div>
+          <div class="col-xl-7 col-md-6 col-sm-9 p-4 my-auto">
+            <div id="lsSolicitudes"/>    
+          </div>
+        </div>      
+      </main>
+      <!-- AQUI COMINEZA EL FORM PARA AGREGAR PERSONAS -->
+      <main class="container-fluid" style="display: none;" id="main-persona">
+        <div class="row" display="none">
+          <div class="col-12  p-4 my-auto">
+            <form class="card card-body" id="formPersonas">
+              <div class="form-group">
+                <h5>NUEVA PERSONA</h5>
+              </div>
+              <div class="row">
+                <div class="col-xl-4  col-md-6 col-sm-12 p-4 my-auto">
+                  <label for="">Documento unico de Identificacion</label>
+                  <div class="form-group">
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="dpi_np"
+                      name="dpi_np"
+                      placeholder="DPI/Cui Personas"
+                      pattern="[0-9]*"
+                      minlength="13"
+                      maxlength="13"
+                      autofocus
+                      required
+                    />
+                  </div>
+                  <label for="">Nombres y Apellidos</label>
+                  <div class="form-group">
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="nombre1_np"
+                      name="nombre1_np"
+                      placeholder="Primer Nombre"
+                      pattern="[a-zA-Z]*"
+                      minlength="3"
+                      maxlength="29"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="nombre2_np"
+                      name="nombre2_np"
+                      placeholder="Segundo Nombre"
+                      pattern="[a-zA-Z]*"
+                      minlength="3"
+                      maxlength="29"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="apellido1_np"
+                      name="apellido2_np"
+                      placeholder="Primer Apellido"
+                      pattern="[a-zA-Z]*"
+                      minlength="3"
+                      maxlength="29"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="apellido2_np"
+                      name="apellido2_np"
+                      placeholder="Segundo Apellido"
+                      pattern="[a-zA-Z]*"
+                      minlength="3"
+                      maxlength="29"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-xl-4  col-md-6 col-sm-12 p-4 my-auto">
+                  <div class="form-group">
+                    <label for="">Fecha Nacimiento</label>
+                    <input
+                      class="form-control"
+                      type="date"
+                      id="fnacimiento_np"
+                      name="fnacimiento_np"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="">Trabaja?</label>
+                    <select class="custom-select" id="trabaja_np">
+                      <option value="S">Si</option>
+                      <option selected value="N">No</option>
+                    </select>
+                  </div>
+                  
+                  <label for="">Nombre de la Empresa</label>
+                  <div class="form-group">
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="nombreep_np"
+                      name="nombreep_np"
+                      placeholder="KFW S.A"
+                      pattern="[a-zA-Z]*"
+                      minlength="2"
+                      maxlength="49"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="">Es Casado/a?</label>
+                    <select class="custom-select" id="casado_np">
+                      <option value="S">Si</option>
+                      <option selected value="N">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xl-4  col-md-6 col-sm-12 p-4 my-auto">
+                    <label for="">Salario</label>
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="salario_np"
+                        name="salario_np"
+                        placeholder="Ingresos"
+                        pattern="[0-9]*"
+                        minlength="0"
+                        maxlength="9"
+                        required
+                      />
+                    </div>
+                    <label for="">Correo electronico</label>
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        type="email"
+                        id="correoe_np"
+                        name="correoe_np"
+                        placeholder="juan@coorr.com"
+                      />
+                    </div>
+                    <label for="">Direccion de Residencia</label>
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="dir_np"
+                        name="dir_np"
+                        placeholder="Direccion"
+                        minlength="3"
+                        maxlength="49"
+                        required
+                      />
+                    </div>
+                    <label for="">Telefono Personal</label>
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        type="tel"
+                        id="tel_np"
+                        name="tel_np"
+                        placeholder="No. Telefono"
+                        pattern="[0-9]*"
+                        minlength="8"
+                        maxlength="8"
+                        required
+                      />
+                    </div>
+                </div>
+                <div class="col-xl-4  col-md-6 col-sm-12 p-4">
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    onclick="cancelarPersona()"
+                  >
+                    Cancelar
+                  </button>
+                  <button 
+                  type="submit" 
+                  class="btn btn-outline-primary">
+                    Registrar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>    
     <script src="js/creditos.js" type="text/javascript"></script>
     <!-- <script src="js/autocomplete.js" type= "text/javascript"></script> -->
   </body>

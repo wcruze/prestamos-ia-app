@@ -16,6 +16,12 @@ exports.getUser = async (req, res) =>  {
   .catch(error => res.send(error));
 };
 
+exports.gebyId = async (req, res) =>  {
+  personas.findByPk(req.query.id)
+  .then(result => res.send(result))
+  .catch(error => res.send(error));
+};
+
 exports.delete = async (req, res) =>  {
   personas.destroy({
       where: {

@@ -9,17 +9,40 @@ const monto = document.getElementById("monto");
 const dpi = document.getElementById("dpi");
 const observaciones = document.getElementById("observaciones");
 const infoPersona = document.getElementById("infoPersona");
-const bodyy = document.getElementById("bodyy");
-let CREDITOSTODOS = [];
+const listaSolicitudes = document.getElementById("lsSolicitudes");
 
 
 window.onload = async () =>{
-    CREDITOSTODOS = await http.get("http://localhost:3001/solicitudes");
-    CREDITOSTODOS.map(ele => {
-        console.log(ele);
-    });
+    renderSolicitudes();
 };
 
+
+const renderSolicitudes = async() =>{
+    listaSolicitudes.innerHTML = '';
+    await http.get("http://localhost:3001/solicitudes")
+    .then(async(result) => {
+        result.map(async(ele) => {
+            const persona = await http.get(`http://localhost:3001/personaid?id=${ele.id_persona}`);
+            console.log(ele);
+            console.log(persona);
+            listaSolicitudes.innerHTML += 
+            `
+                <div>
+                ${ele.credito_monto}
+                </div>
+            `
+        });        
+    })
+}
+
+/*
+id_credito: 1
+id_persona: 73
+credito_observaciones: "La persona no trabaja"
+credito_monto: "5000.000"
+credito_fecha_inicio: "03/30/2020"
+credito_cuotas: 12
+*/
 
 form.addEventListener('submit',async(event) => {
     event.preventDefault();
