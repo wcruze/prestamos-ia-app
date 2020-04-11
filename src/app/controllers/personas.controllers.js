@@ -28,8 +28,8 @@ exports.delete = async (req, res) =>  {
         id_persona: req.body.id
       }
     })
-    .then(result => res.send(result))
-    .catch(error => res.send(error));
+    .then(result => res.status(202).send("Eliminado"))
+    .catch(error => res.status(500).send(error));
 };
 
 exports.update = async (req, res) =>  {

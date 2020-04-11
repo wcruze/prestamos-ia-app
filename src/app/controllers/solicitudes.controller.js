@@ -26,7 +26,7 @@ exports.deleteById = async (req, res) =>  {
         id_credito: req.query.id
       }
     })
-    .then(result => res.status(202).send(result))
+    .then(result => res.status(202).send("Eliminado"))
     .catch(error => res.status(500).send(error));
 };
 

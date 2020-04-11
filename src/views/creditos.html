@@ -16,7 +16,7 @@
   </head>
   <body style="background-color:#323541;">
       <main class="container-fluid" style="display: inline;" id="main-credito">
-        <div class="row">
+        <div class="row" >
           <div class="col-md-6 p-4 my-auto">
             <form class="card card-body" id="formCreditos">
               <div class="form-group">
@@ -99,9 +99,12 @@
                   ACTUALIZAR
                 </button>
               </div>
-            </form>
+            </form>            
           </div>
           <div class="col-md-6">
+              <button type="button" class="btn btn-outline-success" onclick="generarXLSX()">
+                EXPORTAR XLSX
+              </button>
             <div id="lsSolicitudes"/>    
           </div>
         </div>      
@@ -297,6 +300,9 @@
         </div>
       </main>   
     <script src="js/creditos.js" type="text/javascript"></script>
+    <script src="js/crudcreditos.js" type="text/javascript"></script>
+    <script src="js/crudpersonas.js" type="text/javascript"></script>
+    <script src="js/generarxlsx.js" type="text/javascript"></script>
     <!-- <script src="js/autocomplete.js" type= "text/javascript"></script> -->
   </body>
 </html>
