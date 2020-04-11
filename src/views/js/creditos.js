@@ -1,3 +1,6 @@
+const bootbox = require('bootbox');
+var bootstrap = require('bootstrap');
+
 const http = require('../app/utils/httpControllerHolder');
 
 const main_persona = document.getElementById("main-persona")
@@ -12,71 +15,7 @@ const infoPersona = document.getElementById("infoPersona");
 const listaSolicitudes = document.getElementById("lsSolicitudes");
 
 
-window.onload = async () =>{
-    renderSolicitudes();
-};
 
-
-const renderSolicitudes = async() =>{
-    listaSolicitudes.innerHTML = '';
-    await http.get("http://localhost:3001/solicitudes")
-    .then(async(result) => {
-        result.map(async(ele) => {
-            const persona = await http.get(`http://localhost:3001/personaid?id=${ele.id_persona}`);
-            console.log(ele);
-            console.log(persona);
-            listaSolicitudes.innerHTML += 
-            `
-                <div>
-                ${ele.credito_monto}
-                </div>
-            `
-        });        
-    })
-}
-
-/*
-id_credito: 1
-id_persona: 73
-credito_observaciones: "La persona no trabaja"
-credito_monto: "5000.000"
-credito_fecha_inicio: "03/30/2020"
-credito_cuotas: 12
-*/
-
-form.addEventListener('submit',async(event) => {
-    event.preventDefault();
-    const body = {
-        cuotas: cuotas.value,
-        monto: monto.value,
-        observaciones: observaciones.value,
-        dpi: dpi.value
-    }
-    const solicitud = await http.post(`http://localhost:3001/solicitud`,{},body);
-    console.log(solicitud);
-});
-
-async function buscarPersona(){
-    const persona = await http.get(`http://localhost:3001/persona?dpi=${dpi.value}`);
-    if(persona.length > 0){
-        const nombre = `${persona[0].persona_primer_nombre} ${persona[0].persona_segundo_apellido} `;
-        const dpi_ = `${persona[0].persona_dpi}`;
-        const tel = `${persona[0].persona_telefono}`;
-        infoPersona.textContent = `${nombre} | ${dpi_} | ${tel}`
-    }else{
-        infoPersona.textContent = "No existe";
-    }
-}
-async function agregarPersona(){
-    main_persona.style.display ="inline";
-    main_credito.style.display = "none";
-}
-async function cancelarPersona(){
-    main_persona.style.display ="none";
-    main_credito.style.display = "inline";
-}
-
-//---------------------- NUEVAPERSONA    
 const dpi_np = document.getElementById("dpi_np");
 const n1_np = document.getElementById("nombre1_np");
 const n2_np = document.getElementById("nombre2_np");
@@ -92,6 +31,138 @@ const dir_np = document.getElementById("dir_np");
 const tel_np = document.getElementById("tel_np");
 
 const form_np = document.getElementById("formPersonas");
+const btsActualizar = document.getElementById("btsActualizar");
+const btsCrear = document.getElementById("btsCrear");
+
+
+
+//----------------------------------------------------------------------------------------
+window.onload = async () =>{
+    renderSolicitudes();
+};
+
+
+form.addEventListener('submit',async(event) => {
+    event.preventDefault();
+    const body = {
+        cuotas: cuotas.value,
+        monto: monto.value,
+        observaciones: observaciones.value,
+        dpi: dpi.value
+    }
+    const solicitud = await http.post(`http://localhost:3001/solicitud`,{},body);
+    form.reset();
+    infoPersona.textContent = "";
+    console.log(solicitud);
+    renderSolicitudes();
+});
+
+async function buscarPersona(){
+    const persona = await http.get(`http://localhost:3001/persona?dpi=${dpi.value}`);
+    if(persona.length > 0){
+        const nombre = `${persona[0].persona_primer_nombre} ${persona[0].persona_segundo_apellido}`;
+        const dpi_ = `${persona[0].persona_dpi}`;
+        const tel = `${persona[0].persona_telefono}`;
+        const tbj = `${persona[0].persona_trabaja}`;
+        const sll = `${persona[0].persona_ingresos}`
+        infoPersona.textContent = `${nombre} | DPI: ${dpi_} | Tel: ${tel} | Trabaja: ${tbj} | Ingresos: Q${sll}`
+    }else{
+        infoPersona.textContent = "No existe";
+    }
+}
+
+async function agregarPersona(){
+    main_persona.style.display ="inline";
+    main_credito.style.display = "none";
+}
+
+async function cancelarPersona(){
+    main_persona.style.display ="none";
+    main_credito.style.display = "inline";
+}
+
+
+
+async function deleteSolicitud(id){
+    bootbox.confirm({
+            title: "<strong>ELIMINAR SOLICITUD DE CREDITO</strong>",
+            message: "Estas seguro que quieres eliminar esta solicitud? Puedes cancelar pulsando el boton de <strong>CANCELAR</strong>.",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> CANCELAR'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> ELIMINAR'
+                }
+            },
+            callback: async(result) => {
+                if(result){ 
+                    await http.delete(`http://localhost:3001/solicitud?id=${id}`)
+                    .then( solicitudEliminada =>{                        
+                        console.log("Eliminarrr: " + solicitudEliminada);    
+                        renderSolicitudes();  
+                    });          
+                }else{
+                    console.log("Cancelar: " + result)
+                }
+            }
+        }
+    );
+    console.log(id);
+}
+
+let solicitudEdit = {};
+let dpiEdit = {};
+async function editSolicitud(id){
+    await http.get(`http://localhost:3001/solicitud?id=${id}`)
+    .then(rSolicitud =>{
+        solicitudEdit = rSolicitud;
+    });
+    await http.get(`http://localhost:3001/personaid?id=${solicitudEdit.id_persona}`)
+        .then(rPersona =>{
+            dpiEdit = rPersona;
+        });
+
+    cuotas.value = solicitudEdit.credito_cuotas;
+    monto.value = solicitudEdit.credito_monto;
+    observaciones.value = solicitudEdit.credito_observaciones;
+    dpi.value = dpiEdit.persona_dpi;
+
+    btsCrear.style.display ="none";
+    btsActualizar.style.display = "inline";
+    infoPersona.textContent = `${dpiEdit.persona_primer_nombre} ${dpiEdit.persona_segundo_apellido} | DPI: ${dpiEdit.persona_dpi} | Tel: ${dpiEdit.persona_telefono} | Trabaja: ${dpiEdit.persona_trabaja} | Ingresos: Q${dpiEdit.persona_ingresos}`;
+}
+
+function canActualizar(){  
+    solicitudEdit = {};
+    dpiEdit = {};
+    form.reset();
+    infoPersona.textContent = "";    
+    btsCrear.style.display ="inline";
+    btsActualizar.style.display = "none";
+}
+
+async function Actualizar(){  
+
+    const body = {
+        id_credito: solicitudEdit.id_credito,
+        credito_cuotas: cuotas.value,
+        credito_monto: monto.value,
+        credito_observaciones: observaciones.value,
+        id_persona: dpi.value
+    }
+
+    btsCrear.style.display ="inline";
+    btsActualizar.style.display = "none";
+
+    await http.put(`http://localhost:3001/solicitud`,{},body);
+    form.reset();
+    infoPersona.textContent = "";
+    solicitudEdit = {};
+    dpiEdit = {};
+    renderSolicitudes();
+}
+//---------------------- NUEVAPERSONA    
 
 form_np.addEventListener('submit',async(event) => {
     event.preventDefault();
@@ -112,9 +183,41 @@ form_np.addEventListener('submit',async(event) => {
         persona_telefono: tel_np.value
     } 
     
-    const persona__ = await http.post(`http://localhost:3001/persona`,{},body);
+    await http.post(`http://localhost:3001/persona`,{},body);
     dpi.value = dpi_np.value;
     form_np.reset();
+    infoPersona.textContent = "";
     main_persona.style.display ="none";
     main_credito.style.display = "inline";
 });
+
+
+const renderSolicitudes = async() =>{
+    listaSolicitudes.innerHTML = '';
+    await http.get("http://localhost:3001/solicitudes")
+    .then(async(result) => {
+        result.map(async(ele) => {
+            await http.get(`http://localhost:3001/personaid?id=${ele.id_persona}`)
+            .then(persona => {
+                listaSolicitudes.innerHTML += 
+                `
+                    <div class="card card-body my-2 animated fadeInLeft p-5">
+                        <h4>Solicitante: ${persona.persona_primer_nombre} ${persona.persona_primer_apellido}</h4>
+                        <h5>DPI: ${persona.persona_dpi}</h5>
+                        <p>Observacion: ${ele.credito_observaciones}</p>
+                        <p>Fecha: ${ele.credito_fecha_inicio}</p>
+                        <h3>Q${ele.credito_monto}</h3>
+                        <p>
+                        <button class="btn btn-danger btn-sm" onclick="deleteSolicitud('${ele.id_credito}')">
+                        ELIMINAR
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="editSolicitud('${ele.id_credito}')">
+                        EDITAR 
+                        </button>
+                        </p> 
+                    </div>
+                `
+            });
+        });        
+    })
+}
