@@ -4,6 +4,7 @@ var Excel = require('exceljs');
 let DATOS = [];
 
 async function generarXLSX(){
+    DATOS = [];
     console.log("GENERANDO XLSX");
     await http.get("http://localhost:3001/solicitudes")
     .then(async(solicitudes) => {        
@@ -102,7 +103,11 @@ async function crearNuevoArchivoExcel()
                     workbook.xlsx.writeFile("Reporte solicitudes de creditos.xlsx")
                     .then(function() {
                         bootbox.alert("Archivo Guardado");
-                    });     
+                    })
+                    .catch(
+                        function() {
+                            bootbox.alert("No se pudo guardar, cierre el archivo");
+                        });     
                 }else{
                     bootbox.alert("Archivo No Guardado");
                 }

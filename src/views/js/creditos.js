@@ -39,7 +39,6 @@ const btsCrear = document.getElementById("btsCrear");
 //----------------------------------------------------------------------------------------
 window.onload = async () =>{
     renderSolicitudes();
-    generarXLSX();
 };
 
 
@@ -59,6 +58,7 @@ form.addEventListener('submit',async(event) => {
 });
 
 const renderSolicitudes = async() =>{
+    generarXLSX();
     listaSolicitudes.innerHTML = '';
     await http.get("http://localhost:3001/solicitudes")
     .then(async(result) => {
@@ -70,9 +70,9 @@ const renderSolicitudes = async() =>{
                 `
                     <div class="card card-body my-2 animated fadeInLeft p-5">
                         <h4>Solicitante: ${persona.persona_primer_nombre} ${persona.persona_primer_apellido}</h4>
-                        <h5>DPI: ${persona.persona_dpi}</h5>
-                        <p>Observacion: ${ele.credito_observaciones}</p>
-                        <p>Fecha: ${ele.credito_fecha_inicio}</p>
+                        <h5>DPI: ${persona.persona_dpi} - ${persona.persona_trabaja === 'S' ? 'SI APLICA':'NO APLICA'}</h5>
+                        <p>Observacion: ${ele.credito_observaciones} | Sus ingresos son ${persona.persona_ingresos}</p>
+                        <p>Fecha Solicitud: ${ele.credito_fecha_inicio} | Cuotas: ${ele.credito_cuotas}</p>
                         <h3>Q${ele.credito_monto}</h3>
                         <p>
                         <button class="btn btn-danger btn-sm" onclick="deleteSolicitud('${ele.id_credito}')">
