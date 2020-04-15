@@ -39,6 +39,7 @@ const btsCrear = document.getElementById("btsCrear");
 //----------------------------------------------------------------------------------------
 window.onload = async () =>{
     renderSolicitudes();
+    generarXLSX();
 };
 
 
@@ -64,6 +65,7 @@ const renderSolicitudes = async() =>{
         result.map(async(ele) => {
             await http.get(`http://localhost:3001/personaid?id=${ele.id_persona}`)
             .then(persona => {
+             
                 listaSolicitudes.innerHTML += 
                 `
                     <div class="card card-body my-2 animated fadeInLeft p-5">
