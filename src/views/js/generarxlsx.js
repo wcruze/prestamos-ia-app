@@ -86,9 +86,28 @@ async function crearNuevoArchivoExcel()
         });
     });
 
-    workbook.xlsx.writeFile("Reporte solicitudes de creditos.xlsx")
-    .then(function() {
-        // Success Message
-        alert("File Saved");
-    });
+    bootbox.confirm({
+            title: "<strong>GUARDAR ARCHIVO DE EXCEL</strong>",
+            message: "Deseas exportar el archivo? si no lo deseas presiona <strong>CANCELAR</strong>.",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> CANCELAR'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> EXPORTAR'
+                }
+            },
+            callback: async(result) => {
+                if(result){ 
+                    workbook.xlsx.writeFile("Reporte solicitudes de creditos.xlsx")
+                    .then(function() {
+                        bootbox.alert("Archivo Guardado");
+                    });     
+                }else{
+                    bootbox.alert("Archivo No Guardado");
+                }
+            }
+        }
+    );
+    
 }
